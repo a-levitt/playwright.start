@@ -15,7 +15,7 @@ test("Test with browser context", async ({browser}) => {
     const buttonSignIn = await page.locator("//input[@id='signInBtn']");
     const alertWrongUserData = await page.locator("//form[@id='login-form']/" +
         "div[@class='alert alert-danger col-md-12']");
-    const productIphoneTitle = await page.locator("//div[@class='card-body']//a").first();
+    const listProductTitles = await page.locator("//div[@class='card-body']//a");
 
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const getTitle = await page.title();
@@ -27,10 +27,14 @@ test("Test with browser context", async ({browser}) => {
     const alertText = await alertWrongUserData.textContent();
     //await console.warn(alertText);
     await expect(alertText).toContain("Incorrect");
-    //await page.pause();
 
     await fieldUserName.clear();
     await fieldUserName.fill("rahulshettyacademy")
     await buttonSignIn.click();
-    await console.warn(await productIphoneTitle.textContent());
+    //await console.warn(await listProductTitles.first().textContent());
+    //await console.warn(await listProductTitles.nth(1).textContent());
+    await page.waitForURL("https://rahulshettyacademy.com/angularpractice/shop")
+    const allTitles = await listProductTitles.allTextContents();
+    console.log(allTitles);
+    //await page.pause();
 });
