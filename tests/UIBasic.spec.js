@@ -13,13 +13,15 @@ test("Test with browser context", async ({browser}) => {
     const getTitle = await page.title();
     expect(getTitle).toBe("LoginPage Practise | Rahul Shetty Academy");
     const fieldUserName = await page.locator("//input[@id='username']");
-    await fieldUserName.waitFor();
     await fieldUserName.fill("rahulshetty");
     const fieldPassword = await page.locator("//input[@id='password']");
-    await fieldPassword.waitFor();
     await fieldPassword.fill("learning");
     const buttonSignIn = await page.locator("//input[@id='signInBtn']");
-    await buttonSignIn.waitFor();
     await buttonSignIn.click();
-    await page.pause();
+    const alertWrongUserData = await page.locator("//form[@id='login-form']/" +
+                                                                    "div[@class='alert alert-danger col-md-12']");
+    const alertText = await alertWrongUserData.textContent();
+    //await console.warn("1: " + alertText);
+    await expect(alertText).toContain("Incorrect");
+    //await page.pause();
 });
